@@ -16,6 +16,9 @@ public class TargetUnion extends TargetImpl {
     ArrayList<Target> targets = new ArrayList<>();
     private FilterCard filter;
 
+    public TargetUnion(Target... argtargets) {
+        Collections.addAll(targets, argtargets);
+    }
     @Override
     public boolean canChoose(UUID sourceControllerId, Ability source, Game game) {
         for (Target t: targets){

@@ -7,7 +7,6 @@ import mage.abilities.common.DiesSourceTriggeredAbility;
 import mage.abilities.effects.OneShotEffect;
 import mage.abilities.effects.common.CreateTokenEffect;
 import mage.cards.*;
-import mage.cards.m.MantleOfTheAncientsPredicate;
 import mage.constants.Outcome;
 import mage.constants.SubType;
 import mage.constants.CardType;
@@ -17,9 +16,7 @@ import mage.filter.predicate.Predicates;
 import mage.game.Game;
 import mage.game.permanent.token.*;
 import mage.players.Player;
-import mage.target.TargetCard;
-import mage.target.TargetCardUnion;
-import mage.target.Targets;
+import mage.target.*;
 import mage.target.common.TargetCardInHand;
 import mage.target.common.TargetCardInYourGraveyard;
 
@@ -70,15 +67,6 @@ class LiberatedLivestockEffect extends OneShotEffect {
 
     private LiberatedLivestockEffect(final LiberatedLivestockEffect effect) {super(effect);}
 
-    private static final FilterCard auraInHandOrYourGraveyard = new FilterCard("Aura card in your graveyard or hand");
-
-    static {
-        auraInHandOrYourGraveyard.add(Predicates.and(
-                SubType.AURA.getPredicate(),
-                SubType.DRAGON.get
-        ));
-    }
-
     @Override
     public boolean apply(Game game, Ability source) {
         Player controller = game.getPlayer((source.getControllerId()));
@@ -97,15 +85,11 @@ class LiberatedLivestockEffect extends OneShotEffect {
         Cards cardsInGraveyard = controller.getGraveyard();
         TargetCard thand = new TargetCardInHand();
         TargetCard tgraveyard = new TargetCardInYourGraveyard();
-        Targets targets = new Targets(thand, tgraveyard);
-        TargetCard tcard = new TargetCardUnion(cardsInHand, cardsInGraveyard);
-
-
-
-
+        Target target = new TargetUnion(thand, tgraveyard);
 
 
         controller.choose(outcome, target, source, game);
+        /*
         Cards cards = new CardsImpl(target.getTargets());
         if (cards.isEmpty()) {
             return false;
@@ -118,7 +102,7 @@ class LiberatedLivestockEffect extends OneShotEffect {
             permanent.addAttachment(cardId, source, game);
         }
         return true;
-
+        */
 
         return true;
     }
