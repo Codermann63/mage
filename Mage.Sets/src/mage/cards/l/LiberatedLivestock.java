@@ -24,6 +24,7 @@ import mage.target.TargetCard;
 import mage.target.Targets;
 import mage.target.common.TargetCardInHand;
 import mage.target.common.TargetCardInYourGraveyard;
+import mage.target.common.TargetCardInYourHandOrGraveyard;
 
 /**
  *
@@ -95,12 +96,7 @@ class LiberatedLivestockEffect extends OneShotEffect {
             for (UUID t : token.getLastAddedTokenIds()){
                 Permanent sourcePermanent = game.getPermanent(t);
                 if (sourcePermanent == null){continue;}
-                if (controller.chooseUse(outcome, "Look in Hand or Graveyard?", null, "Hand", "Graveyard", source, game)){
-                    target = new TargetCardInHand(0,1,filter);
-                }
-                else{
-                    target = new TargetCardInYourGraveyard(0,1,filter);
-                }
+                target = new TargetCardInYourHandOrGraveyard(0,1,filter);
 
                 target.withNotTarget(true);
                 controller.chooseTarget(outcome, target, source, game);
