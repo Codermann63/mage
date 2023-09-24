@@ -84,8 +84,9 @@ public class DamageDoneWatcher extends Watcher {
     }
 
     public boolean damagedAPlayer(UUID objectId, int zoneChangeCounter, Game game) {
-        MageObjectReference mor = new MageObjectReference(objectId, zoneChangeCounter, game);
-        return objectsToPlayersDamaged.containsKey(mor);
+        //MageObjectReference mor = new MageObjectReference(objectId, zoneChangeCounter, game);
+        boolean returnvalue = objectsToPlayersDamaged.keySet().stream().anyMatch(mor -> mor.getSourceId().equals(objectId) && mor.getZoneChangeCounter() == zoneChangeCounter);
+        return returnvalue;//objectsToPlayersDamaged.containsKey(mor);
     }
 
 }

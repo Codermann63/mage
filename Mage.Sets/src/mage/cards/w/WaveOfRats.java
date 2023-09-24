@@ -8,6 +8,7 @@ import mage.abilities.decorator.ConditionalInterveningIfTriggeredAbility;
 import mage.abilities.effects.common.ReturnToBattlefieldUnderOwnerControlSourceEffect;
 import mage.abilities.keyword.BlitzAbility;
 import mage.abilities.keyword.TrampleAbility;
+import mage.cards.Card;
 import mage.cards.CardImpl;
 import mage.cards.CardSetInfo;
 import mage.constants.CardType;
@@ -59,14 +60,16 @@ enum WaveOfRatsDealtDamageToPlayerCondition implements Condition {
 
     @Override
     public boolean apply(Game game, Ability source) {
+
         DamageDoneWatcher watcher = game.getState().getWatcher(DamageDoneWatcher.class);
-        Permanent waveOfRats = game.getPermanent(source.getSourceId());
+        Card waveOfRats = game.getCard(source.getSourceId());
         if (watcher == null || waveOfRats == null) {
             return false;
         }
-        if (watcher.damageDoneBy(waveOfRats.getId(), waveOfRats.getZoneChangeCounter(game), game) < 1) {
+        /*if (watcher.damageDoneBy(waveOfRats.getId(), waveOfRats.getZoneChangeCounter(game), game) < 1) {
             return false;
-        }
-        return watcher.damagedAPlayer(waveOfRats.getId(), waveOfRats.getZoneChangeCounter(game), game);
+        }*/
+        boolean returnValue = watcher.damagedAPlayer(waveOfRats.getId(), waveOfRats.getZoneChangeCounter(game)-1, game);
+        return returnValue;//watcher.damagedAPlayer(waveOfRats.getId(), waveOfRats.getZoneChangeCounter(game), game);
     }
 }
